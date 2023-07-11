@@ -2,15 +2,34 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:pro="clr-namespace:XrayA"
              xmlns:vm="clr-namespace:XrayA.ViewModels"
+             xmlns:rxui="http://reactiveui.net"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="XrayA.Views.MainView"
-             x:DataType="vm:MainViewModel">
+             x:DataType="vm:MainViewModel" Background="{DynamicResource SemiColorBackground0}">
   <Design.DataContext>
     <!-- This only sets the DataContext for the previewer in an IDE,
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
     <vm:MainViewModel />
   </Design.DataContext>
 
-  <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+  <Grid ColumnDefinitions="200,*">
+      <ListBox Name="lbModuleList" Grid.Column="0" ItemsSource="{Binding ModuleList}"
+               VerticalAlignment="Stretch" Background="{DynamicResource SemiColorFill0}" >
+          <ListBox.ItemTemplate>
+              <DataTemplate>
+                  <TextBlock Text="{Binding}"/>
+              </DataTemplate>
+          </ListBox.ItemTemplate>
+      </ListBox>
+      
+      <rxui:RoutedViewHost Grid.Column="1">
+          <rxui:RoutedViewHost.DefaultContent>
+          </rxui:RoutedViewHost.DefaultContent>
+          <rxui:RoutedViewHost.ViewLocator>
+              <pro:ViewLocator/>
+          </rxui:RoutedViewHost.ViewLocator>
+      </rxui:RoutedViewHost>
+  </Grid>
 </UserControl>
