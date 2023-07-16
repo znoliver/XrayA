@@ -13,9 +13,11 @@ public partial class MainView : ReactiveUserControl<MainViewModel>
 
         this.WhenActivated(disposable =>
         {
-            this.OneWayBind(ViewModel, vm => vm.SelectedModuleIndex, v => v.lbModuleList.SelectedIndex)
+            this.Bind(ViewModel, vm => vm.SelectedModuleIndex, v => v.lbModuleList.SelectedIndex)
                 .DisposeWith(disposable);
-            
+
+            this.Bind(ViewModel, vm => vm.Router, v => v.routedViewHost.Router)
+                .DisposeWith(disposable);
         });
     }
 }

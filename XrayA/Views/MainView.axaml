@@ -24,7 +24,7 @@
           </ListBox.ItemTemplate>
       </ListBox>
       
-      <rxui:RoutedViewHost Grid.Column="1">
+      <rxui:RoutedViewHost Name="routedViewHost" Grid.Column="1">
           <rxui:RoutedViewHost.DefaultContent>
           </rxui:RoutedViewHost.DefaultContent>
           <rxui:RoutedViewHost.ViewLocator>
