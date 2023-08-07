@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reactive;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using XrayA.Helpers;
 
 namespace XrayA.ViewModels;
 
@@ -25,6 +26,8 @@ public class MainViewModel : ViewModelBase, IScreen
         this.ModuleList = new() { "服务节点", "节点管理", "设置", "关于" };
         this.Router = new RoutingState();
         this.ModuleChangeCommand = ReactiveCommand.Create<int>(SwitchModule);
+        
+        LazyConfigHelper.Instance.Init();
 
         this.WhenAnyValue(x => x.SelectedModuleIndex)
             .InvokeCommand(ModuleChangeCommand);

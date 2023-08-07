@@ -4,24 +4,52 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:vm="clr-namespace:XrayA.ViewModels"
+             xmlns:converter="clr-namespace:XrayA.Converters"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+             xmlns:iac="clr-namespace:Avalonia.Xaml.Interactions.Custom;assembly=Avalonia.Xaml.Interactions.Custom"
              x:DataType="vm:SubscribeViewModel"
              x:Class="XrayA.Views.SubscribeView">
     <Design.DataContext>
         <vm:SubscribeViewModel />
     </Design.DataContext>
-    <Grid RowDefinitions="Auto,*">
+    <UserControl.Resources>
+        <converter:SubscribeButtonSelectedConverter x:Key="subscribeButtonSelectedConverter" />
+    </UserControl.Resources>
+    <Grid RowDefinitions="Auto,Auto,*">
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <TextBox Name="tbSubscribePath" Width="300" />
             <Button Name="btnAddSubscribe" Content="添加订阅" />
             <Button Content="更新订阅" />
         </StackPanel>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding NodeInfoList}">
+        <Border Grid.Row="1" HorizontalAlignment="Center" Theme="{StaticResource RadioButtonGroupBorder}">
+            <ItemsControl Background="Transparent" ItemsSource="{Binding Subscribes}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <RadioButton Classes="Large" Theme="{DynamicResource ButtonRadioButton}"
+                                     Content="{Binding GroupName}"
+                                     IsChecked="True">
+                            <Interaction.Behaviors>
+                                <EventTriggerBehavior EventName="Click">
+                                    <ia:InvokeCommandAction Command="{Binding}" />
+                                </EventTriggerBehavior>
+                            </Interaction.Behaviors>
+                        </RadioButton>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+        <DataGrid Grid.Row="2" ItemsSource="{Binding NodeInfoList}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="id" Binding="{Binding Id}"/>
-                <DataGridTextColumn Header="类型" Binding="{Binding ProtocolType}"/>
-                <DataGridTextColumn Header="地址" Binding="{Binding Address}"/>
-                <DataGridTextColumn Header="端口" Binding="{Binding Port}"/>
-                <DataGridTextColumn Header="备注" Binding="{Binding Remark}"/>
+                <DataGridTextColumn Header="id" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="类型" Binding="{Binding ProtocolType}" />
+                <DataGridTextColumn Header="地址" Binding="{Binding Address}" />
+                <DataGridTextColumn Header="端口" Binding="{Binding Port}" />
+                <DataGridTextColumn Header="备注" Binding="{Binding Remark}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

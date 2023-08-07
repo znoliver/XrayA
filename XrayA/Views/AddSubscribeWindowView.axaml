@@ -1,0 +1,25 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="XrayA.Views.AddSubscribeWindowView" ShowInTaskbar="False"
+        xmlns:vm="clr-namespace:XrayA.ViewModels" SizeToContent="WidthAndHeight"
+        x:DataType="vm:AddSubscribeWindowViewModel" WindowStartupLocation="CenterOwner"
+        Title="AddSubscribeWindowView" CanResize="False">
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="40">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="分组名称：" VerticalAlignment="Center"/>
+            <TextBox x:Name="tbGroup" Width="300" Watermark="请输入订阅分组名称" Text="{Binding SubscribeGroup}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="0,15">
+            <TextBlock Text="订阅地址：" VerticalAlignment="Center"/>
+            <TextBox x:Name="tbSubscribe" Width="300" Watermark="请输入订阅地址" Text="{Binding SubscribePath}" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button Name="btnParse" Content="解析订阅" Margin="0,0,15,0" />
+            <Button Name="btnSave" Content="保存" Margin="15,0,0,0" />
+        </StackPanel>
+    </StackPanel>
+</Window>

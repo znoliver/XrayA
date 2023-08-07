@@ -1,10 +1,14 @@
+using System;
 using System.Reactive.Disposables;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ReactiveUI;
+using XrayA.Models;
+using XrayA.Models.DataBase;
 using XrayA.ViewModels;
 
 namespace XrayA.Views;
@@ -20,10 +24,10 @@ public partial class SubscribeView : ReactiveUserControl<SubscribeViewModel>
     {
         this.WhenActivated(disposable =>
         {
-            this.BindCommand(ViewModel, vm => vm.AddSubscribeCommand, v => v.BtnAddSubscribe,
-                    v => v.SubscribePathModel.Path)
+            this.BindCommand(ViewModel, vm => vm.AddSubscribeCommand, v => v.BtnAddSubscribe)
                 .DisposeWith(disposable);
-            this.Bind(ViewModel, vm => vm.SubscribePathModel.Path, v => v.TbSubscribePath.Text)
+
+            this.BindInteraction(ViewModel, vm => vm.AddSubscribeInteraction, AddSubscribeAsync)
                 .DisposeWith(disposable);
         });
         InitializeComponent();
@@ -32,5 +36,18 @@ public partial class SubscribeView : ReactiveUserControl<SubscribeViewModel>
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
+    }
+
+    private async Task AddSubscribeAsync(InteractionContext<AddSubscribeWindowViewModel, Subscribe?> interaction)
+    {
+        var dialog = new AddSubscribeWindowView();
+        dialog.DataContext = interaction.Input;
+
+        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            if (desktop.MainWindow is null) return;
+            var result = await dialog.ShowDialog<Subscribe?>(desktop.MainWindow);
+            interaction.SetOutput(result);
+        }
     }
 }

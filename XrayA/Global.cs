@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+
 namespace XrayA;
 
 internal class Global
@@ -14,4 +17,6 @@ internal class Global
     public const string VlessProtocolLite = "vless";
     public const string TrojanProtocol = "trojan://";
     public const string TrojanProtocolLite = "trojan";
+
+    public const string DataBaseName = "XDB.db";
 }
